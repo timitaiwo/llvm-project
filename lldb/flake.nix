@@ -12,8 +12,10 @@
         pkgs = nixpkgs.legacyPackages.${system};
         # LLVM with the libraries you need
         llvm = pkgs.llvmPackages_22.llvm;
+        # llvm-dev = pkgs.llvmPackages_22.llvm.dev;
         lld = pkgs.llvmPackages_22.lld;
         clang = pkgs.llvmPackages_22.clang;
+        # clang-tools = pkgs.llvmPackages_22.clang-tools;
         clang-unwrapped = pkgs.symlinkJoin {
           name = "clang-unwrapped-merged";
           paths = [
@@ -43,10 +45,11 @@
 
             # LLVM toolchain
             llvm
+            # llvm-dev
             clang
             clang-unwrapped
             lld
-            # lldb
+            # clang-tools
 
             # Libraries
             pkgs.libedit
@@ -59,15 +62,14 @@
             export CC=clang
             export CXX=clang++
             export CLANG_RESOURCE_DIR="$(clang -print-resource-dir)"
-            echo "🔧 Yọrọ development environment loaded!"
+
+            export CFLAGS="$NIX_CFLAGS_COMPILE"
+            export CXXFLAGS="$NIX_CFLAGS_COMPILE"
+
             echo "   CMake:   $(cmake --version | head -1)"
             echo "   Ninja:   $(ninja --version)"
-            echo "   Node.js: $(node --version)"
             echo "   LLVM:    $(llvm-config --version)"
           '';
-
-          # Help CMake find libraries
-          CMAKE_PREFIX_PATH = "${llvm}/lib/cmake/llvm";
         };
       }
     );
