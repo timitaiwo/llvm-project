@@ -12,10 +12,8 @@
         pkgs = nixpkgs.legacyPackages.${system};
         # LLVM with the libraries you need
         llvm = pkgs.llvmPackages_22.llvm;
-        # llvm-dev = pkgs.llvmPackages_22.llvm.dev;
         lld = pkgs.llvmPackages_22.lld;
         clang = pkgs.llvmPackages_22.clang;
-        # clang-tools = pkgs.llvmPackages_22.clang-tools;
         clang-unwrapped = pkgs.symlinkJoin {
           name = "clang-unwrapped-merged";
           paths = [
@@ -45,11 +43,9 @@
 
             # LLVM toolchain
             llvm
-            # llvm-dev
             clang
             clang-unwrapped
             lld
-            # clang-tools
 
             # Libraries
             pkgs.libedit
